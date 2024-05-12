@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Services\UserServices;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserServiceTest extends TestCase
@@ -18,8 +16,18 @@ class UserServiceTest extends TestCase
         $this->userService = $this->app->make(UserServices::class);
     }
 
-    public function testSample()
+    public function testLoginSuccess()
     {
-        self::assertTrue(true);
+        self::assertTrue($this->userService->login('khannedy', 'rahasia'));
+    }
+
+    public function testLoginUserNotFound()
+    {
+        self::assertFalse($this->userService->login('eko', 'eko'));
+    }
+
+    public function testLoginWrongPassword()
+    {
+        self::assertFalse($this->userService->login('khannedy', 'salah'));
     }
 }
